@@ -5,16 +5,16 @@
 //   database: "teleinc_adminpanel",
 // });
 
-import express from "express";
-import { createPool } from "mysql2/promise"; // Import mysql2/promise
+const express = require("express");
+const mysql = require("mysql2/promise"); // Import mysql2/promise
 
 const app = express();
 
 // MySQL Connection
-const pool = createPool({
+const pool = mysql.createPool({
   host: "localhost",
-  user: "root",
-  password: "",
+  user: "telemart_host",
+  password: "Telemart@321",
   database: "teleinc_adminpanel",
 });
 
