@@ -1,11 +1,39 @@
+// import express from "express";
+
+// const app = express();
+// const port = 9000;
+// app.use("/", (req, res) => {
+//   res.json({ message: "Hello From Express App" });
+// });
+
+// app.listen(9000, () => {
+//   console.log(`Starting Server on Port ${port}`);
+// });
+
 import express from "express";
+import { createConnection } from "mysql";
 
 const app = express();
-const port = 9000;
-app.use("/", (req, res) => {
-  res.json({ message: "Hello From Express App" });
+
+// MySQL Connection
+const connection = createConnection({
+  host: "localhost",
+  user: "telemart_host",
+  password: "Telemart@321",
+  database: "teleinc_adminpanel",
 });
 
-app.listen(9000, () => {
-  console.log(`Starting Server on Port ${port}`);
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL: ", err);
+    return;
+  }
+  console.log("Connected to MySQL database");
+});
+
+// Your Express routes and middleware setup go here
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
