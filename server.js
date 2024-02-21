@@ -6,39 +6,31 @@
 // });
 
 import express from "express";
-import { createConnection } from "mysql";
+import { createPool } from "mysql2/promise"; // Import mysql2/promise
 
 const app = express();
 
 // MySQL Connection
-const connection = createConnection({
+const pool = createPool({
   host: "localhost",
-  user: "telemart_host",
-  password: "Telemart@321",
+  user: "root",
+  password: "",
   database: "teleinc_adminpanel",
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL: ", err);
-    return;
+// Route to fetch data from MySQL
+app.get("/data", async (req, res) => {
+  try {
+    const connection = await pool.getConnection();
+    const [rows, fields] = await connection.query(
+      "SELECT * FROM count_order_tbl"
+    );
+    connection.release();
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Internal Server Error");
   }
-  console.log("Connected to MySQL database");
-});
-
-// Route to display data from the count_order_tbl table
-app.get("/orders", (req, res) => {
-  connection.query(
-    "SELECT product_name, idtag FROM count_order_tbl",
-    (err, rows) => {
-      if (err) {
-        console.error("Error fetching data from count_order_tbl: ", err);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-      res.json(rows); // Assuming you want to return JSON data
-    }
-  );
 });
 
 const PORT = process.env.PORT || 3000;
