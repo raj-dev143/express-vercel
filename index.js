@@ -10,13 +10,13 @@
 //   console.log(`Starting Server on Port ${port}`);
 // });
 
-const express = require("express");
-const mysql = require("mysql");
+import express from "express";
+import { createConnection } from "mysql";
 
 const app = express();
 
 // MySQL Connection
-const connection = mysql.createConnection({
+const connection = createConnection({
   host: "localhost",
   user: "telemart_host",
   password: "Telemart@321",
